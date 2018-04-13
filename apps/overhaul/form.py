@@ -39,3 +39,9 @@ class RegForm(forms.Form):
             raise forms.ValidationError("两次密码输入不一致!")
         return password_again
 
+class TaskForm(forms.Form):
+    equipment_name=forms.CharField(label='设备名称',max_length=50,widget=forms.TextInput(attrs={'class':'form-control','placeholder':"维修部位"}))
+    content = forms.CharField(label='故障原因',widget=forms.Textarea(attrs={'class':'form-control','placeholder':"故障现象及原因"}))
+    workload=forms.IntegerField(label='工时',widget=forms.NumberInput(attrs={'class':'form-control','placeholder':"工时"}))
+    price=forms.IntegerField(label='价格(元)',widget=forms.NumberInput(attrs={'class':'form-control','placeholder':"价格"}))
+    publisher=forms.CharField(label='发布人',widget=forms.HiddenInput())

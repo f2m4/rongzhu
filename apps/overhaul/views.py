@@ -123,11 +123,14 @@ def logout_go(request):
 # 检修任务
 def task(request):
     page_num = request.GET.get('page', 1)
-
+    data={
+        'publisher':request.user
+    }
+    task_form=form.TaskForm(initial=data)
     tasks_list = models.TaskModel.objects.filter(is_get=False)
     paginator = Paginator(tasks_list, 5)
     tasks = paginator.page(page_num)
-    context = {'tasks': tasks}
+    context = {'tasks': tasks,'task_form':task_form}
     return render(request, 'rongzhu/pages/tasks.html', context)
 
 
