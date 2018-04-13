@@ -1,0 +1,137 @@
+{% extends 'rongzhu/pages/base.html' %}
+{% load static %}
+{% block title %}
+    检修任务
+{% endblock %}
+{% block content %}
+    <br>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="jumbotron">
+                <h1><i class="fa fa-tasks fa-fw"></i>检修任务</h1>
+                <p>发布设备检修任务.请检修班组尽快处理!</p>
+                <p><a class="btn btn-primary btn-lg" href="#" role="button">发布任务</a></p>
+                {#任务完成进度条#}
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45"
+                         aria-valuemin="0" aria-valuemax="100" style="width: 45%">
+                        <span>45% 完成</span>
+                    </div>
+                </div>
+                {#任务完成进度条end#}
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-bell fa-fw"></i> 任务清单
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="list-group">
+                        {% for task in tasks.object_list %}
+
+
+
+                            <a href="{% url 'orders' task.id %}" class="list-group-item">
+                                <i class="fa fa-tasks fa-fw"></i> {{ task.equipment_name }}
+                                <span class="pull-right text-muted small"><em>{{ task.crdate }} </em>
+                                    </span>
+                                <li class="list-group-item list-group-item-danger">{{ task.content }}</li>
+                            </a>
+                        {% endfor %}
+
+                    </div>
+                    <!-- /.list-group -->
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination">
+                            <li>
+
+                                {% if tasks.has_previous %}
+                                    <a href="?page={{ tasks.previous_page_number }}" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                {% else %}
+                                    <a href="#" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                {% endif %}
+
+                            </li>
+                            {% for page in tasks.paginator.page_range %}
+                                {% if page == tasks.number %}
+                                    <li class="active"><a href="?page={{ page }}">{{ page }}</a></li>
+                                {% else %}
+                                    <li><a href="?page={{ page }}">{{ page }}</a></li>
+                                {% endif %}
+
+                            {% endfor %}
+
+
+
+                            <li>
+                                {% if tasks.has_next %}
+                                    <a href="?page={{ tasks.next_page_number }}" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                {% else %}
+                                    <a href="#" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                {% endif %}
+
+
+                            </li>
+                        </ul>
+                    </nav>
+
+                </div>
+                <!-- /.panel-body -->
+            </div>
+
+        </div>
+        <!-- /.col-lg-8 -->
+{#    按生产线分类#}
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-list-alt fa-fw"></i> 生产线分类
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="list-group">
+                        <a href="" class="list-group-item">
+                            <i class="fa fa-cogs fa-fw"></i>10T
+                        </a>
+                    </div>
+                    <!-- /.list-group -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-4 -->
+    {#    按日期归档#}
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-calendar fa-fw"></i> 日期归档
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="list-group">
+                        <a href="" class="list-group-item">
+                            <i class="fas fa-moon"></i>2018-4
+                        </a>
+                    </div>
+                    <!-- /.list-group -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-4 -->
+
+
+    </div>
+    <!-- /.row -->
+{% endblock %}

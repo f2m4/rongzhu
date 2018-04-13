@@ -1,0 +1,33 @@
+{% extends 'rongzhu/pages/base.html' %}
+{% load static %}
+{% block title %}
+注册页面
+{% endblock %}
+{% block content %}
+    <br>
+    <div class="container">
+    <div class="row">
+        <div class="col-xs-4 col-xs-offset-4">
+            <div class="panel panel-info">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">注册</h3>
+                  </div>
+                  <div class="panel-body">
+                    <form role="form" action="" method="post">
+                    {% csrf_token %}
+                        {% for foo in reg_form %}
+                            <label for="{{ foo.id_for_label}}">{{ foo.label }}</label>
+                            {{ foo }}
+                            <p class="text-danger">{{ foo.errors.as_text }}</p>
+                        {% endfor %}
+                    <span class="text-danger pull-left">{{ reg_form.non_field_errors }}</span>
+                <input type="submit" class="btn btn-success pull-right" value="注册">
+
+            </form>
+                  </div>
+
+                </div>
+        </div>
+    </div>
+    </div>
+{% endblock %}

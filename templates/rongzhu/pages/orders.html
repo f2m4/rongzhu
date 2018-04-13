@@ -1,0 +1,70 @@
+{% extends 'rongzhu/pages/base.html' %}
+{% load static %}
+{% block title %}
+    接单
+{% endblock %}
+{% block content %}
+    <br>
+
+    <div class="col-lg-12">
+
+
+        <div class="panel panel-red">
+            <div class="panel-heading">
+                任务单详情
+            </div>
+            <div class="panel-body">
+                <div class="list-group">
+
+                    <h2>{{ task.equipment_name }}</h2>
+                    <blockquote>
+                        <p>{{ task.content }}</p>
+                    </blockquote>
+                    <div class="pull-right">
+                        <small>--- {{ task.publisher }}
+                            <cite title="Source Title">{{ task.crdate }}</cite>
+                        </small>
+                    </div>
+
+                    <h4>工时:{{ task.workload }}小时 <span>价格:{{ task.price }}元</span></h4>
+
+                </div>
+
+            </div>
+            <div class="panel-footer">
+                已查看:{{ task.get_read_num }}次
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4">
+                {% if previous_task %}
+                    <a href="{% url 'orders' previous_task.id %}" type="button"
+                       class="btn btn-success btn-lg pull-left">上一个</a>
+                {% else %}
+                    <a href="#" type="button" class="btn btn-success btn-lg pull-left">没有了</a>
+                {% endif %}
+
+            </div>
+
+            <div class="col-lg-4 text-center">
+                <a href="{% url 'task' %}" type="button" class="btn btn-info btn-lg"><i
+                        class="fa fa-backward fa-fw"></i>返回</a>
+                <a href="{% url 'gettask' task.id %}" type="button" class="btn btn-danger btn-lg">接单干活喽!</a>
+            </div>
+
+            <div class="col-lg-4">
+                {% if next_task %}
+                    <a href="{% url 'orders' next_task.id %}" type="button" class="btn btn-success btn-lg pull-right">下一个</a>
+
+                {% else %}
+                    <a href="#" type="button" class="btn btn-success btn-lg pull-right">没有了</a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}

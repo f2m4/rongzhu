@@ -1,0 +1,87 @@
+{% extends 'rongzhu/pages/base.html' %}
+{% load static %}
+{% block title %}
+    工作内容
+{% endblock %}
+{% block content %}
+    <br>
+
+    <div class="row">
+
+{#    进行中的任务#}
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-list-alt fa-fw"></i> 进行中的工作
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    {% for dotask in dotask_list %}
+                        <div class="list-group">
+                        <a href="" class="list-group-item">
+                            <i class="fa fa-cogs fa-fw"></i>{{ dotask }}
+                        </a>
+                    </div>
+
+                    {% endfor %}
+
+
+                    <!-- /.list-group -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-4 -->
+    {#    已完成的任务#}
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-calendar fa-fw"></i> 已完成的工作
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    {% for dotaskend in dotaskend_list %}
+                        <div class="list-group">
+                        <a href="" class="list-group-item">
+                            <i class="fa fa-cogs fa-fw"></i>{{ dotaskend }}
+                        </a>
+                    </div>
+
+                    {% endfor %}
+                    <!-- /.list-group -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-4 -->
+
+    {#    接单完成的任务#}
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-calendar fa-fw"></i> 验收完毕
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    {% for dotaskendover in dotaskendover_list %}
+                        <div class="list-group">
+                        <a href="" class="list-group-item">
+                            <i class="fa fa-cogs fa-fw"></i>{{ dotaskendover }}
+                        </a>
+                    </div>
+
+                    {% endfor %}
+                    <!-- /.list-group -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-4 -->
+
+
+    </div>
+    <!-- /.row -->
+{% endblock %}

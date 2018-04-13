@@ -1,0 +1,114 @@
+{% extends 'rongzhu/pages/base.html' %}
+{% load static %}
+
+{% block title %}
+留言板
+{% endblock %}
+{% block content %}
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header text-center"><span class="glyphicon glyphicon-blackboard  "></span>留言板</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <span class="fa fa-comment-o"></span> 畅所欲言
+                        </div>
+
+                        {% if user.is_authenticated %}
+                            <div class="panel-body">
+                            <form role="form" action="{% url 'save_message' %}" method="post">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                {% for foo in messageform %}
+{#                                    <label for="{{ foo.id_for_label}}">{{ foo.label }}</label>#}
+                                    {{ foo }}
+                                    <br>
+                                {% endfor %}
+                                </div>
+
+                                <input type="submit" value="提交" class="btn btn-primary btn-block">
+
+                            </form>
+
+                            </div>
+                            <div class="panel-footer text-right">
+                                By:{{ user }}
+                            </div>
+
+                        {% else %}
+                            <div class="panel-body">
+                            <div class="alert alert-danger text-center">
+
+
+                            <strong>登录后方可留言</strong>
+                                </div>
+                                <div class="row">
+                                <div class="col-lg-6">
+                            <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#login">
+                              登录
+                            </button>
+                                    </div>
+                                <div class="col-lg-6">
+                                <button type="button" class="btn btn-success btn-lg btn-block" data-toggle="modal" data-target="#registered">
+                              注册
+                            </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer text-right">
+
+                            </div>
+
+                        {% endif %}
+
+
+                    </div>
+                </div>
+                <!-- /.col-lg-4 -->
+
+            </div>
+
+
+        <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-clock-o fa-fw"></i> 留言's Timeline
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                        <ul class="timeline">
+                            {% for foo in messages %}
+                                {% if local %}
+
+                                <li class="{% cycle '' 'timeline-inverted' %}">
+                                    <div class="timeline-badge"><i class="fa fa-check"></i>
+                                    </div>
+                                    <div class="timeline-panel">
+                                        <div class="timeline-heading">
+                                            <h4 class="timeline-title">{{ foo.title }}</h4>
+                                            <p><small class="text-muted"><i class="fa fa-clock-o"></i> {{ foo.crdate }} -- {{ foo.author }}</small>
+                                            </p>
+                                        </div>
+                                        <div class="timeline-body">
+                                            <p>{{ foo.content|safe }}</p>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+
+
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+
+
+{% endblock %}

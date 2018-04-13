@@ -1,0 +1,77 @@
+{% extends 'rongzhu/pages/base.html' %}
+{% load static %}
+{% block title %}
+    登录页面
+{% endblock %}
+{% block content %}
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-4 col-xs-offset-4">
+
+            </div>
+        </div>
+
+
+        <div class="col-lg-6 col-lg-offset-3">
+            {% if user.is_authenticated %}
+
+                <div class="panel panel-yellow">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-tasks fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge">{{ user }} </div>
+                                <div>已登录</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="{% url 'logout' %}">
+                        <div class="panel-footer">
+                            <span class="pull-left">注销</span>
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+                </div>
+            {% else %}
+
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-sign-in fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge">登录</div>
+                                <div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-footer">
+
+
+                        <form role="form" action="" method="post">
+                            {% csrf_token %}
+                            {% for foo in login_f %}
+                                <label for="{{ foo.id_for_label }}">{{ foo.label }}</label>
+                                {{ foo }}
+                                <p class="text-danger">{{ foo.errors.as_text }}</p>
+                            {% endfor %}
+                            <span class="text-danger pull-left">{{ login_f.non_field_errors }}</span>
+                            <input type="submit" class="btn btn-success pull-right" value="登录">
+
+                        </form>
+                        <div class="clearfix"></div>
+                    </div>
+
+                </div>
+            {% endif %}
+    </div>
+{% endblock %}
