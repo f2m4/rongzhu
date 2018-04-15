@@ -39,9 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ckeditor',
+    'ckeditor_uploader',
     'overhaul',
     'countnum',
     'comment',
+
 ]
 
 MIDDLEWARE = [
@@ -131,9 +133,12 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
 
 # media目录
 MEDIA_URL = '/media/'
-MEDIA_ROOT = [os.path.join(BASE_DIR, 'media'), ]
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 # ckeditor配置
+CKEDITOR_UPLOAD_PATH='upload/'
 CKEDITOR_CONFIGS = {
+    # 留言板message的编辑框配置文件
     'message_ckeditor': {
         'toolbar': 'Custom',
         'toolbar_Custom': [
@@ -170,5 +175,33 @@ CKEDITOR_CONFIGS = {
         'width': 'auto',
         'tabSpaces': 4,
 
+    },
+    # task 里面的编辑框配置文件
+    'task_ckeditor': {
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            {'name': 'basicstyles',
+             'items': ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']},
+            {'name': 'document',
+             'items': ['Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Source', '-',
+                       'Preview', 'Print', 'Maximize']},
+            {'name': 'styles', 'items': ['Styles', 'Format', 'Font', 'FontSize']},
+            {'name': 'colors', 'items': ['TextColor', 'BGColor']},
+
+        ],
+        'width': 'auto',
+        'tabSpaces': 4,
+
+    },
+    # 默认配置,不使用参数的时候必须有
+    'default': {
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', 'Underline'],
+            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter',
+             'JustifyRight', 'JustifyBlock'],
+            ['Link', 'Unlink','Image'],
+            ['RemoveFormat', 'Source']
+        ]
     }
 }

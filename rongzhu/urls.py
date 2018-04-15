@@ -15,8 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from django.conf import settings   #导入settings 可以使用里面的定义的变量
+from django.conf.urls.static import static   #在开发环境中可以使用这个把media文件加入到url,使其可以被访问到
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('overhaul.urls')),
+    path('ckeditor/',include('ckeditor_uploader.urls')),
 ]
+# 设置媒体文件可以被客户端访问到.适用于开发环境.
+urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

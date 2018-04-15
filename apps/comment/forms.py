@@ -1,12 +1,13 @@
 # coding=utf-8
 from django import forms
 from ckeditor.widgets import CKEditorWidget
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
 
 class MessageForm(forms.Form):
     title = forms.CharField(label='标题', required=False,max_length=20,
                             widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': "文章标题"}))
-    msg = forms.CharField(label='内容', widget=CKEditorWidget(config_name='message_ckeditor'))
+    msg = forms.CharField(label='内容', widget=CKEditorUploadingWidget(config_name='message_ckeditor'))
     # 作者是个外键.所以字段是数字
     author = forms.IntegerField(widget=forms.HiddenInput)
 

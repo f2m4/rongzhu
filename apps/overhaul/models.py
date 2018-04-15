@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from countnum.models import ReadnumModel, ReadnumExnum
-
+from ckeditor_uploader.fields import RichTextUploadingField
 
 class DeviceModel(models.Model):
     name = models.CharField(max_length=30)
@@ -24,7 +24,7 @@ class DeviceModel(models.Model):
 # Create your models here.
 class MessagesModel(models.Model):
     title = models.CharField(max_length=20)
-    content = models.TextField()
+    content = RichTextUploadingField()
     crdate = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     is_del = models.BooleanField(default=False)
@@ -51,7 +51,7 @@ class MessagesModel(models.Model):
 class TaskModel(models.Model, ReadnumExnum):
     # 设备名称
     equipment_name = models.CharField(max_length=50)
-    content = models.TextField()
+    content = RichTextUploadingField()
     crdate = models.DateTimeField(auto_now_add=True)
     # 是否接单
     is_get = models.BooleanField(default=False)
