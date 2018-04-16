@@ -133,6 +133,15 @@ def task(request):
     context = {'tasks': tasks,'task_form':task_form}
     return render(request, 'rongzhu/pages/tasks.html', context)
 
+#任务单提交
+def taskajax(request):
+    task = form.TaskForm(request.POST)
+    if task.is_valid():
+        pass
+    else:
+        pass
+
+
 
 # 接单页面
 def orders(request, task_id):
