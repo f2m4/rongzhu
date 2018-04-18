@@ -3,9 +3,7 @@ from . import models
 
 
 # Register your models here.
-@admin.register(models.MessagesModel)
-class MessagesAdmin(admin.ModelAdmin):
-    list_display = ('id', 'author', 'title', 'content', 'crdate')
+
 
 
 @admin.register(models.TaskModel)
