@@ -23,7 +23,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('overhaul.urls')),
     path('ckeditor/',include('ckeditor_uploader.urls')),
-    path('messages/',include('comment.urls'))
+    path('messages/',include('comment.urls')),
+    path('login/',include('login.urls')),
 ]
 # 设置媒体文件可以被客户端访问到.适用于开发环境.
 urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

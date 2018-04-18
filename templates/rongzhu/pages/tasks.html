@@ -11,21 +11,24 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="task_new_form">新建检修任务</h5>
+                    <h2 class="modal-title text-center" id="task_new_form">新建检修任务</h2>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="task_from_post" role="form" action="" method="post">
+                    <form id="task_form_post" role="form" method="post">
                         {% csrf_token %}
                         {{ task_form }}
-                        {#                        <input type="submit" class="btn btn-success pull-right" value="提交">#}
+                        <br>
+                        <input type="submit" class="btn btn-success btn-block" value="提交">
                     </form>
+                    <br>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-primary" id="commit_btn">提交</button>
+                    {#                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>#}
+                    {#                    <button type="button" class="btn btn-primary" id="commit_btn">提交</button>#}
+                    <p class="text-danger pull-left" id="taskadd_error"></p>
                 </div>
             </div>
         </div>
@@ -52,20 +55,21 @@
                 </div>
                 {#任务完成进度条end#}
             </div>
+
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <i class="fa fa-bell fa-fw"></i> 任务清单
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
-                    <div class="list-group">
+                    <div class="list-group" id="task_div">
                         {% for task in tasks.object_list %}
 
                             <a href="{% url 'orders' task.id %}" class="list-group-item">
                                 <i class="fa fa-tasks fa-fw"></i> {{ task.equipment_name }}
                                 <span class="pull-right text-muted small"><em>{{ task.crdate }} </em>
                                     </span>
-                                <li class="list-group-item list-group-item-danger">{{ task.content }}</li>
+                                <li class="list-group-item list-group-item-danger">{{ task.content|safe }}</li>
                             </a>
                         {% endfor %}
 
@@ -166,34 +170,71 @@
 {% endblock %}
 {% block script_extends %}
     <script>
-        $('#commit_btn').click(function () {
-            CKEDITOR.instances['id_text'].updateElement();
-            $('#task_form_post').submit(function () {
-                $.ajax({
-                    url: '{% url 'reg' %}',
-                    type: 'post',
-                    data: $(this).serialize(),
-                    cache: false,
-                    success: function (data) {
-                        controls.log(data)
-
-                    },
-                    error: function (xhr) {
-                        controls.log(xhr)
-                    }
-
-                });
-                return false;
-            });
-        });
+        {#发布任务是判断是否登录#}
         $('#taskgo').click(function () {
-            if ('{{ user.is_authenticated }}'=='True') {
+            if ('{{ user.is_authenticated }}' == "True") {
                 $('#task_new').modal('show');
             }
             else {
                 $('#login_error').modal('show');
             }
 
+        });
+
+        {#ajax提交发布任务#}
+        $('#task_form_post').submit(function () {
+            //判断故障原因是否未空
+            $('#taskadd_error').text('');
+            if (CKEDITOR.instances["id_content"].document.getBody().getText().trim() == '') {
+                $('#taskadd_error').text('故障原因不能未空!');
+                //出现错误,停止运行
+                return false
+            };
+            //将富文本编辑框的内容放入表单元素里面
+            CKEDITOR.instances['id_content'].updateElement();
+            //通过ajax提交
+            $.ajax({
+                url: "{% url 'taskajax' %}",
+                type: 'post',
+                data: $(this).serialize(),
+                cache: false,
+                success: function (data) {
+                    //如果添加数据成功返回
+                    if (data['status'] == 'success') {
+                        //列表里面添加数据
+                        var task_div_add = '<a href="' + '/orders/' + data["id"] +
+                            '" class="list-group-item">\n' +
+                            '                                <i class="fa fa-tasks fa-fw"></i> ' + data['equipment_name'] + '\n' +
+                            '                                <span class="pull-right text-muted small"><em>' + data['crdate'] + ' </em>\n' +
+                            '                                    </span>\n' +
+                            '                                <li class="list-group-item list-group-item-danger">' + data['content'] + '</li>\n' +
+                            '                            </a>';
+                        $('#task_div').prepend(task_div_add);
+                        //清空富文本框内提交的数据
+                        CKEDITOR.instances['id_content'].setData('');
+                        //关闭模态框
+                        $('#task_new').modal('hide');
+
+
+                    }
+                    //如果添加数据失败返回
+                    else {
+                        //显示错误信息
+                        $('#taskadd_error').text(data['message']);
+
+                    }
+
+
+                    console.log(data);
+
+
+                },
+                error: function (xhr) {
+                    console.log(xhr);
+                },
+
+            });
+            return false;
         });
 
     </script>

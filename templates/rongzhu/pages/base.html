@@ -284,7 +284,7 @@
                     {% else %}
                         <li><a href="" data-toggle="modal" data-target="#login"><i class="fa fa-sign-in fa-fw"></i>
                             登录</a></li>
-                        <li><a href="" data-toggle="modal" data-target="#registered"><i class="fa fa-registered"></i> 注册</a>
+                        <li><a href="{% url 'reg' %}?from={{ request.get_full_path }}"><i class="fa fa-registered"></i> 注册</a>
                         </li>
                     {% endif %}
 
@@ -457,46 +457,7 @@
                 </div>
             </div>
         </div>
-        <!-- Modal 注册 -->
-        <div class="modal fade" id="registered" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">注册</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form role="form">
-                            <fieldset>
-                                <div class="form-group">
-                                    <input class="form-control" placeholder="E-mail" name="email" type="email"
-                                           autofocus>
-                                </div>
-                                <div class="form-group">
-                                    <input class="form-control" placeholder="Password" name="password" type="password"
-                                           value="">
-                                </div>
-                                <div class="checkbox">
-                                    <label>
-                                        <input name="remember" type="checkbox" value="Remember Me">记住
-                                    </label>
-                                </div>
-                                <!-- Change this to a button or input when using this as a form -->
-                                <a href="index.html" class="btn btn-lg btn-success btn-block">注册</a>
-                            </fieldset>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                        {#                            <button type="button" class="btn btn-primary">Save changes</button>#}
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <!-- 没有登录 -->
+        <!-- 未登录时弹出的modal -->
 
         <div id="login_error" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">

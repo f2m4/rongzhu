@@ -40,9 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ckeditor',
     'ckeditor_uploader',
-    'overhaul',
-    'countnum',
-    'comment',
+    'overhaul',#检修app
+    'countnum',#计数app
+    'comment',#评论留言app
+    'login',#登录app
 
 ]
 
@@ -116,7 +117,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # 修改为中文
 LANGUAGE_CODE = 'zh-hans'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
