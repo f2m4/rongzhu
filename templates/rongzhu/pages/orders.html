@@ -9,7 +9,7 @@
     <div class="col-lg-12">
 
 
-        <div class="panel panel-red">
+        <div id="pan_div" class="panel panel-red">
             <div class="panel-heading">
                 任务单详情
             </div>
@@ -18,7 +18,7 @@
 
                     <h2>{{ task.equipment_name }}</h2>
                     <blockquote>
-                        <p>{{ task.content }}</p>
+                        <p>{{ task.content|safe }}</p>
                     </blockquote>
                     <div class="pull-right">
                         <small>--- {{ task.publisher }}
@@ -32,7 +32,11 @@
 
             </div>
             <div class="panel-footer">
-                已查看:{{ task.get_read_num }}次
+                <div class="row">
+                    <div class="col-lg-4">已查看:{{ task.get_read_num }}次</div>
+
+                    <div class="col-lg-4 text-center"><span id="span_id" class="text-danger"></span></div>
+                </div>
             </div>
         </div>
         <div class="row">
@@ -49,7 +53,10 @@
             <div class="col-lg-4 text-center">
                 <a href="{% url 'task' %}" type="button" class="btn btn-info btn-lg"><i
                         class="fa fa-backward fa-fw"></i>返回</a>
-                <a href="{% url 'gettask' task.id %}" type="button" class="btn btn-danger btn-lg">接单干活喽!</a>
+                {#                <a href="{% url 'gettask' task.id %}" type="button" class="btn btn-danger btn-lg"#}
+                {#                   id="gettask_a">接单干活喽!</a>#}
+                <a type="button" class="btn btn-danger btn-lg"
+                   id="gettask_a">接单干活喽!</a>
             </div>
 
             <div class="col-lg-4">
@@ -67,4 +74,37 @@
 
     </div>
 
+{% endblock %}
+{% block script_extends %}
+    <script>
+        //在前台先判断一个用户是否登录
+        $('#gettask_a').click(function () {
+            if ('{{ user.is_authenticated }}' == "True") {
+                $.ajax({
+                    url: "{% url 'gettask' task.id %}",
+                    success: function (data) {
+                        if (data['status'] == 'success') {
+                            $('#pan_div').removeClass('panel-red').addClass('panel-yellow');
+                            $('#gettask_a').remove();
+                            $('#span_id').text('已成功接单!请及时处理!');
+                        }else{
+                            $('#pan_div').removeClass('panel-red').addClass('panel-yellow');
+                            $('#gettask_a').remove();
+                            $('#span_id').text(data['message']);
+                        }
+                    },
+                    error: function (xhr) {
+
+                    }
+                });
+            }
+            else {
+                //如果未登录,弹出模态框提示
+                $('#login_error').modal('show');
+            }
+            ;
+
+
+        });
+    </script>
 {% endblock %}

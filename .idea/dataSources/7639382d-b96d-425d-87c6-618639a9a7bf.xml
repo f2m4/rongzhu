@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<dataSource name="@localhost">
+<dataSource name="Django default">
   <database-model serializer="dbm" rdbms="MYSQL" format-version="4.8">
     <root id="1">
       <ServerVersion>5.7.19</ServerVersion>
       <DefaultCasing>exact</DefaultCasing>
     </root>
     <schema id="2" parent="1" name="bjgl">
-      <Current>1</Current>
       <Collation>utf8_general_ci</Collation>
     </schema>
     <schema id="3" parent="1" name="hui">
@@ -31,6 +30,7 @@
       <Collation>utf8mb4_unicode_ci</Collation>
     </schema>
     <schema id="10" parent="1" name="rongzhu">
+      <Current>1</Current>
       <Visible>1</Visible>
       <Collation>utf8_general_ci</Collation>
     </schema>

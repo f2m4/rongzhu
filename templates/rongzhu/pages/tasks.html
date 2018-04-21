@@ -57,8 +57,9 @@
             </div>
 
             <div class="panel panel-default">
-                <div class="panel-heading">
+                <div class="panel-heading h3">
                     <i class="fa fa-bell fa-fw"></i> 任务清单
+                    <span class="text-danger pull-right">{{ tasks.paginator.count }}个未接任务</span>
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
@@ -90,11 +91,16 @@
                                 {% endif %}
 
                             </li>
-                            {% for page in tasks.paginator.page_range %}
+                            {% for page in page_list %}
                                 {% if page == tasks.number %}
                                     <li class="active"><a href="?page={{ page }}">{{ page }}</a></li>
                                 {% else %}
-                                    <li><a href="?page={{ page }}">{{ page }}</a></li>
+                                    {% if page == '...' %}
+                                        <li><a>{{ page }}</a></li>
+                                    {% else %}
+                                        <li><a href="?page={{ page }}">{{ page }}</a></li>
+                                    {% endif %}
+
                                 {% endif %}
 
                             {% endfor %}
@@ -114,6 +120,7 @@
 
 
                             </li>
+                        <span class="h5 pull-right">总计{{ tasks.paginator.count }}任务未接,一共{{ tasks.paginator.num_pages }}页,当前第{{ tasks.number }}页</span>
                         </ul>
                     </nav>
 
@@ -170,7 +177,7 @@
 {% endblock %}
 {% block script_extends %}
     <script>
-        {#发布任务是判断是否登录#}
+        {#发布任务时判断是否登录#}
         $('#taskgo').click(function () {
             if ('{{ user.is_authenticated }}' == "True") {
                 $('#task_new').modal('show');
@@ -189,7 +196,8 @@
                 $('#taskadd_error').text('故障原因不能未空!');
                 //出现错误,停止运行
                 return false
-            };
+            }
+            ;
             //将富文本编辑框的内容放入表单元素里面
             CKEDITOR.instances['id_content'].updateElement();
             //通过ajax提交
